@@ -20,11 +20,13 @@ In the init file (`home/.emacs.d/init.el` here does this, in its TEXSYNC block):
 
 ```elisp
 (add-to-list 'load-path "~/repos/omarchy-customizations/emacs-omarchy-theme")
-(when (and (display-graphic-p) (require 'omarchy-follow nil t))
+(when (and (or (display-graphic-p) (daemonp)) (require 'omarchy-follow nil t))
   (omarchy-follow-mode 1))
 ```
 
-Only in graphical Emacs (`/usr/bin/emacs`): terminal Emacs (`emacs`, which
+Only in graphical Emacs (`/usr/bin/emacs`) and in the Emacs daemon, whose frames "Emacs
+(Client)" opens: a daemon reads the init file before it has a graphical frame, so
+`display-graphic-p` alone would leave the mode off there. Terminal Emacs (`emacs`, which
 `emacs-tui-default/` makes `emacs -nw`) keeps the terminal's colours.
 
 Try it with texsync, without an init file:
