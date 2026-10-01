@@ -10,7 +10,10 @@ the user says otherwise, and no secrets or private details are committed.
   mistakes: `RESEARCH_LOG.md`. Read both before changing anything.
 - **Where it is used:** the user's live init file, `~/.emacs.d/init.el`, a symlink to
   `~/Dropbox/etc/emacs/init.el`. Its TEXSYNC block (near the end) puts this directory and
-  `~/repos/texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs.
+  `~/repos/texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs and
+  in the Emacs daemon (`emacs.service`, which "Emacs (Client)" connects to; the user's usual
+  way in). The daemon reads init.el with no graphical frame: test it with `daemonp` forced
+  true, and restart it (`systemctl --user restart emacs`, after the user has saved) to reload.
   `home/.emacs.d/init.el` in this repository mirrors the live file, sanitized (a chat link is
   shortened); keep the two in step by hand, applying only the intended change.
 - **Companion:** texsync, `~/repos/texsync` (github.com/stefanoconiglio/texsync, public): LaTeX
@@ -32,7 +35,9 @@ the user says otherwise, and no secrets or private details are committed.
 
 ## Open
 
-- Confirm the redraw fix on screen with the user (switch light ↔ dark with a PDF open).
+- Confirm on screen with the user, in an Emacs (Client) frame, that the daemon follows the
+  theme (fixed 2026-10-01 20:28: it never turned the mode on) and the redraw fix (switch
+  light ↔ dark with a PDF open).
 - Report the pdf-tools redraw bug upstream (`pdf-view-refresh-themed-buffer` →
   `(pdf-roll-redisplay t)` redraws only the selected window). Ask before filing.
 - `home/.config/omarchy/hooks/theme-set` calls the non-existent `omarchy-theme-set-emacs`.
@@ -45,8 +50,9 @@ the user says otherwise, and no secrets or private details are committed.
   commit. The test uses a temporary state directory; it never changes the real theme.
 - **Do not open windows on the user's desktop** (graphical Emacs, test runs) without asking:
   they work on this machine at the same time. Check behaviour headless where possible: load the
-  init file in `emacs --batch` (with `(advice-add 'display-graphic-p :override (lambda (&rest
-  _) t))` to take the graphical branch), or run `omarchy-follow-apply` in batch and read the
+  init file in `/usr/bin/emacs --batch` (plain `emacs` is Omarchy's wrapper and opens a
+  terminal window) with `(advice-add 'display-graphic-p :override (lambda (&rest _) t))`, or
+  `daemonp` likewise, to take the graphical branch; or run `omarchy-follow-apply` in batch and read the
   palette with `modus-themes-get-color-value`.
 - In batch Emacs, file-notify events arrive through the input queue: wait with `read-event`.
 - Modus themes are in Emacs's theme directory: load them with `(require-theme 'modus-themes)`.

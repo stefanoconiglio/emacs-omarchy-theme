@@ -81,3 +81,58 @@ commits, superseded) is left in place for the user to delete. `make test` 3 / 3 
 code differs only in its header comment, the test and Makefile are identical, the documents
 were carried over (personal details removed), nothing loads from the old path. Not carried over:
 its three local commits. Deleted.
+
+## 2026-10-01 20:18 CEST — Emacs (Client) never turned the mode on
+
+**Report (user, screenshots).** Under a light and a dark Omarchy theme, Emacs looked the same
+(default white Emacs colours) and the PDF stayed white on black. The user opens files with
+"Emacs (Client)" from Nautilus and asked whether that is the wrong Emacs, and what the Emacs
+entries in the app chooser are.
+
+**Found.**
+- "Emacs (Client)" (`emacsclient.desktop`) opens a frame of the Emacs daemon, `emacs.service`
+  (systemd user unit, enabled since 2026-02-27, started at every login: today 17:35). A daemon
+  reads init.el with no graphical frame, so `(display-graphic-p)` is nil there and the TEXSYNC
+  block's `(when (and (display-graphic-p) (require 'omarchy-follow nil t)) …)` never ran.
+  The live daemon: `omarchy-follow` not loaded, mode off, `custom-enabled-themes` nil.
+- The PDF was not "stuck in dark": it was init.el's midnight hook (white on black, mode line
+  ` Mid`), which applies when omarchy-follow is off.
+- The daemon read init.el at 17:35, before the move here (19:57): its load path still has the
+  deleted `~/repos/emacs-config`, so `M-x omarchy-follow-mode` there would fail too.
+- The previous daemon started 2026-09-30 18:00, before the TEXSYNC block existed (14:23 today),
+  so the client never had this package. Where it worked, it was probably a separate graphical
+  Emacs (started directly or through texsync's `try.el`); not checked.
+- texsync is on in the client frames: its check runs in `LaTeX-mode-hook`, when the frame is
+  already graphical.
+- The other entries: "Emacs" (`emacs.desktop`, `Exec=emacs`) resolves to Omarchy's wrapper
+  `~/.local/bin/emacs`, which opens a terminal running `/usr/bin/emacs -nw`; "Emacs TUI"
+  (`~/.local/share/applications/emacs-tui.desktop`) runs `/usr/bin/emacs -nw` in a terminal;
+  "Emacs (Mail)" and "Emacs (Mail, Client)" are mailto handlers. Only "Emacs (Client)" gives a
+  graphical Emacs.
+
+**Checked (headless, `emacs -Q --batch`, `daemonp` forced true).** With the condition
+`(or (display-graphic-p) (daemonp))` the mode turns on and loads `modus-operandi` with
+Catppuccin Latte's palette (bg #eff1f5, fg #4c4f69, keyword #1e66f5); with neither, it stays
+off, as before. (Read the palette with `(modus-themes-get-color-value 'bg-main t)`: without
+the second argument it ignores the overrides and gives #ffffff.)
+
+**Mistake.** The first run of that check called `emacs`, which is the terminal wrapper: it
+opened two terminal windows on the user's desktop (they closed when batch Emacs exited). Use
+`/usr/bin/emacs` for headless checks.
+
+**Decision (user).** Change the condition, and restart the daemon to apply it.
+
+**Done.** Backup `~/.emacs.d/init.el.bak-20261001-202640`. The TEXSYNC block of the live init
+file and of `home/.emacs.d/init.el` turns the mode on when `(or (display-graphic-p) (daemonp))`,
+with a comment saying why; the two blocks are identical, and the live file's 68 forms parse.
+README.md (install snippet) and AGENTS.md say the same, and AGENTS.md now says to run headless
+checks with `/usr/bin/emacs`. The daemon had no unsaved file buffers and no client frames; it
+was restarted with `systemctl --user restart emacs`.
+
+**Results.** The restarted daemon has the mode on, `custom-enabled-themes` (modus-operandi),
+bg-main #eff1f5, fg-main #4c4f69 (Catppuccin Latte), the file watch set, and this directory on
+its load path (the old `~/repos/emacs-config` is gone). `make compile` clean, `make test`
+3 / 3. Not yet seen in a client frame on screen.
+
+**Open.** The user to open a file with Emacs (Client) and switch light ↔ dark with a PDF open;
+this also confirms the redraw fix of 14:29.
