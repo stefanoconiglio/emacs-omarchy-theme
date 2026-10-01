@@ -19,8 +19,8 @@ the user says otherwise, and no secrets or private details are committed.
 - **Omarchy's side:** current theme in `~/.local/state/omarchy/current/` (`theme.name`,
   `theme/colors.toml`); `omarchy-theme-color --file … mode` for light/dark. Never edit
   `/usr/share/omarchy/`.
-- **Superseded:** `~/repos/emacs-config` (local git, no remote) held this package before; the user
-  may delete it. Do not work there.
+- **History:** the package first lived in a local repository, `~/repos/emacs-config`, deleted
+  once everything was here (RESEARCH_LOG.md).
 
 ## State (2026-10-01)
 

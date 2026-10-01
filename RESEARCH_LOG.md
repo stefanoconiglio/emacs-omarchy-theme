@@ -74,3 +74,10 @@ this log and AGENTS.md. The directory name says what it does; the package keeps 
 (`omarchy-follow`), which the init file uses. The live init file's TEXSYNC block now loads it from
 here, and `home/.emacs.d/init.el` mirrors that block. `~/repos/emacs-config` (local only, three
 commits, superseded) is left in place for the user to delete. `make test` 3 / 3 in the new place.
+
+## 2026-10-01 20:06 CEST — Old local repository deleted
+
+**Decision (user).** Delete `~/repos/emacs-config` once everything is here. Checked first: the
+code differs only in its header comment, the test and Makefile are identical, the documents
+were carried over (personal details removed), nothing loads from the old path. Not carried over:
+its three local commits. Deleted.
