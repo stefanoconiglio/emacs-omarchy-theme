@@ -16,10 +16,12 @@ source and PDF side by side in Emacs, kept in step), but works on its own.
 
 ## Use
 
-In the init file (`home/.emacs.d/init.el` here does this, in its TEXSYNC block):
+Clone it to `~/repos/emacs-omarchy-theme`, then in the init file
+([emacs-customizations](https://github.com/stefanoconiglio/emacs-customizations)' `init.el`
+does this, in its TEXSYNC block):
 
 ```elisp
-(add-to-list 'load-path "~/repos/omarchy-customizations/emacs-omarchy-theme")
+(add-to-list 'load-path "~/repos/emacs-omarchy-theme")
 (when (and (or (display-graphic-p) (daemonp)) (require 'omarchy-follow nil t))
   (omarchy-follow-mode 1))
 ```
@@ -27,12 +29,13 @@ In the init file (`home/.emacs.d/init.el` here does this, in its TEXSYNC block):
 Only in graphical Emacs (`/usr/bin/emacs`) and in the Emacs daemon, whose frames "Emacs
 (Client)" opens: a daemon reads the init file before it has a graphical frame, so
 `display-graphic-p` alone would leave the mode off there. Terminal Emacs (`emacs`, which
-`emacs-tui-default/` makes `emacs -nw`) keeps the terminal's colours.
+[emacs-tui-default](https://github.com/stefanoconiglio/emacs-tui-default) makes
+`emacs -nw`) keeps the terminal's colours.
 
 Try it with texsync, without an init file:
 
 ```
-/usr/bin/emacs -Q -L ~/repos/omarchy-customizations/emacs-omarchy-theme \
+/usr/bin/emacs -Q -L ~/repos/emacs-omarchy-theme \
     -l ~/repos/texsync/try.el FILE.tex
 ```
 
@@ -51,6 +54,8 @@ keeps the current theme. To turn the PDF colours off for one PDF:
 
 ## Note on the theme-set hook
 
-`home/.config/omarchy/hooks/theme-set` used to call `omarchy-theme-set-emacs`, a command that does
+The theme-set hook kept in
+[omarchy-customizations](https://github.com/stefanoconiglio/omarchy-customizations)
+(`home/.config/omarchy/hooks/theme-set`) used to call `omarchy-theme-set-emacs`, a command that does
 not exist on this machine, presumably an earlier attempt at the same thing. `omarchy-follow-mode`
 does not need it, and the line was removed on 2026-10-01; the hook now does nothing.
