@@ -3,7 +3,7 @@
 ;; Author: Stefano Coniglio
 ;; Version: 0.1
 ;; Package-Requires: ((emacs "30.1"))
-;; URL: https://github.com/stefanoconiglio/omarchy-customizations/tree/master/emacs-omarchy-theme
+;; URL: https://github.com/stefanoconiglio/emacs-omarchy-theme
 ;; Keywords: faces
 
 ;;; Commentary:
