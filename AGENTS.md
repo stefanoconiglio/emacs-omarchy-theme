@@ -14,11 +14,11 @@ being asked.
   `~/repos/emacs-customizations/init.el` (github.com/stefanoconiglio/emacs-customizations,
   public): editing that file edits the live one, and it is committed only when the user asks.
   Its TEXSYNC block (near the end) puts this directory and
-  `~/repos/texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs and
+  `~/repos/emacs-texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs and
   in the Emacs daemon (`emacs.service`, which "Emacs (Client)" connects to; the user's usual
   way in). The daemon reads init.el with no graphical frame: test it with `daemonp` forced
   true, and restart it (`systemctl --user restart emacs`, after the user has saved) to reload.
-- **Companion:** texsync, `~/repos/texsync` (github.com/stefanoconiglio/texsync, public): LaTeX
+- **Companion:** texsync, `~/repos/emacs-texsync` (github.com/stefanoconiglio/emacs-texsync, public): LaTeX
   and PDF side by side, synced both ways. It has its own AGENTS.md. Both are loaded together;
   texsync's `try.el` turns this package on when it is on the load path.
 - **Omarchy's side:** current theme in `~/.local/state/omarchy/current/` (`theme.name`,
