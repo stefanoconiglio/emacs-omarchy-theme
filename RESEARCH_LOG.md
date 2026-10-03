@@ -277,3 +277,8 @@ the `URL:` header of omarchy-follow.el. Earlier entries keep the paths of their 
 
 **Decision (user).** GPL-3.0-or-later, as texsync: `LICENSE`, the header of omarchy-follow.el
 and a section of README.md. This closes the open item of the previous entry.
+
+## 2026-10-03 18:08 CEST — omarchy-customizations becomes private
+
+**Decision (user).** omarchy-customizations, the machine repository this package came from, is
+made private. README.md and AGENTS.md no longer link to it; earlier entries name it as history.

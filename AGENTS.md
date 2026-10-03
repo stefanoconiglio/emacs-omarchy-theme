@@ -25,7 +25,8 @@ being asked.
   `theme/colors.toml`); `omarchy-theme-color --file … mode` for light/dark. Never edit
   `/usr/share/omarchy/`.
 - **History:** the package first lived in a local repository, `~/repos/emacs-config` (deleted),
-  then in the `emacs-omarchy-theme/` folder of github.com/stefanoconiglio/omarchy-customizations,
+  then in the `emacs-omarchy-theme/` folder of omarchy-customizations (the user's machine
+  repository, private since 2026-10-03),
   and since 2026-10-03 in this repository, with that folder's history (RESEARCH_LOG.md).
 
 ## State (2026-10-01)
