@@ -1,16 +1,19 @@
 # Working on emacs-omarchy-theme
 
-For an agent (or a person) resuming work on `omarchy-follow`. The repository-wide rules in
-`../AGENTS.md` apply too: this repository is **public**, the live machine is read-only unless
-the user says otherwise, and no secrets or private details are committed.
+For an agent (or a person) resuming work on `omarchy-follow`. This repository is **public**
+(github.com/stefanoconiglio/emacs-omarchy-theme): no secrets, credentials, chat links or other
+private details are committed. The live machine is read-only unless the user says otherwise:
+inspect it, but do not change files, packages or services outside this repository without
+being asked.
 
 ## Where things are
 
 - **The package:** `omarchy-follow.el` here. Design: `DESIGN.md`. History, findings and
   mistakes: `RESEARCH_LOG.md`. Read both before changing anything.
 - **Where it is used:** the user's live init file, `~/.emacs.d/init.el`, a symlink to
-  `home/.emacs.d/init.el` in this repository (`../home/.emacs.d/init.el`): editing that file
-  edits the live one, and the user commits and pushes it by hand. Its TEXSYNC block (near the end) puts this directory and
+  `~/repos/emacs-customizations/init.el` (github.com/stefanoconiglio/emacs-customizations,
+  public): editing that file edits the live one, and it is committed only when the user asks.
+  Its TEXSYNC block (near the end) puts this directory and
   `~/repos/texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs and
   in the Emacs daemon (`emacs.service`, which "Emacs (Client)" connects to; the user's usual
   way in). The daemon reads init.el with no graphical frame: test it with `daemonp` forced
@@ -21,8 +24,9 @@ the user says otherwise, and no secrets or private details are committed.
 - **Omarchy's side:** current theme in `~/.local/state/omarchy/current/` (`theme.name`,
   `theme/colors.toml`); `omarchy-theme-color --file … mode` for light/dark. Never edit
   `/usr/share/omarchy/`.
-- **History:** the package first lived in a local repository, `~/repos/emacs-config`, deleted
-  once everything was here (RESEARCH_LOG.md).
+- **History:** the package first lived in a local repository, `~/repos/emacs-config` (deleted),
+  then in the `emacs-omarchy-theme/` folder of github.com/stefanoconiglio/omarchy-customizations,
+  and since 2026-10-03 in this repository, with that folder's history (RESEARCH_LOG.md).
 
 ## State (2026-10-01)
 

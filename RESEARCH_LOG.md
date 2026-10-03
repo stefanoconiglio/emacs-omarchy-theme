@@ -256,3 +256,19 @@ commit bdb1c8f2c, and asks them to open a PR.
 
 **Open.** Watch #373 for an answer. When a fixed pdf-tools is installed, the redraw loop in
 `omarchy-follow--refresh-pdfs` can go; until then it stays (harmless with the fix).
+
+## 2026-10-03 17:13 CEST — Its own repository
+
+**Decision (user).** Each Emacs project in a repository of its own, so that others can pick
+them up separately: this package, emacs-tui-default and the init file
+(emacs-customizations) leave omarchy-customizations; texsync already had its own.
+
+**Done.** `git subtree split` of the `emacs-omarchy-theme/` folder keeps its four commits; the
+repository is github.com/stefanoconiglio/emacs-omarchy-theme, cloned at
+`~/repos/emacs-omarchy-theme`. The init file's TEXSYNC block now puts that path on the load
+path. Paths updated in README.md (load path, `emacs -Q` example, links to
+emacs-customizations, emacs-tui-default and the theme-set hook in omarchy-customizations),
+AGENTS.md (the rules it took from omarchy-customizations' AGENTS.md are now written out) and
+the `URL:` header of omarchy-follow.el. Earlier entries keep the paths of their time.
+
+**Open.** No licence yet (texsync is GPL-3.0): the user's call.
