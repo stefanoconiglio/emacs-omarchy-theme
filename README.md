@@ -54,11 +54,10 @@ keeps the current theme. To turn the PDF colours off for one PDF:
 
 ## Note on the theme-set hook
 
-The theme-set hook kept in
-[omarchy-customizations](https://github.com/stefanoconiglio/omarchy-customizations)
-(`home/.config/omarchy/hooks/theme-set`) used to call `omarchy-theme-set-emacs`, a command that does
-not exist on this machine, presumably an earlier attempt at the same thing. `omarchy-follow-mode`
-does not need it, and the line was removed on 2026-10-01; the hook now does nothing.
+The author's Omarchy theme-set hook (`~/.config/omarchy/hooks/theme-set`) used to call
+`omarchy-theme-set-emacs`, a command that does not exist on this machine, presumably an earlier
+attempt at the same thing. `omarchy-follow-mode` does not need it, and the line was removed on
+2026-10-01; the hook now does nothing.
 
 ## License
 
