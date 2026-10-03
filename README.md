@@ -59,3 +59,7 @@ The theme-set hook kept in
 (`home/.config/omarchy/hooks/theme-set`) used to call `omarchy-theme-set-emacs`, a command that does
 not exist on this machine, presumably an earlier attempt at the same thing. `omarchy-follow-mode`
 does not need it, and the line was removed on 2026-10-01; the hook now does nothing.
+
+## License
+
+GPL-3.0-or-later, like Emacs and pdf-tools. See [LICENSE](LICENSE).
