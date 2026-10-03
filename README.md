@@ -11,7 +11,7 @@ Omarchy theme, and changes them, within about a second, whenever `omarchy theme 
 Nothing in the Omarchy configuration is changed: Emacs reads the theme from Omarchy's state
 directory (`~/.local/state/omarchy/current/`) and watches it.
 
-It was written together with [texsync](https://github.com/stefanoconiglio/texsync) (LaTeX
+It was written together with [texsync](https://github.com/stefanoconiglio/emacs-texsync) (LaTeX
 source and PDF side by side in Emacs, kept in step), but works on its own.
 
 ## Use
@@ -36,7 +36,7 @@ Try it with texsync, without an init file:
 
 ```
 /usr/bin/emacs -Q -L ~/repos/emacs-omarchy-theme \
-    -l ~/repos/texsync/try.el FILE.tex
+    -l ~/repos/emacs-texsync/try.el FILE.tex
 ```
 
 Commands and options: `M-x omarchy-follow-apply` re-applies the current theme;
