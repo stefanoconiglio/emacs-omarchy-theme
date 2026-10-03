@@ -272,3 +272,8 @@ AGENTS.md (the rules it took from omarchy-customizations' AGENTS.md are now writ
 the `URL:` header of omarchy-follow.el. Earlier entries keep the paths of their time.
 
 **Open.** No licence yet (texsync is GPL-3.0): the user's call.
+
+## 2026-10-03 17:25 CEST — Licence
+
+**Decision (user).** GPL-3.0-or-later, as texsync: `LICENSE`, the header of omarchy-follow.el
+and a section of README.md. This closes the open item of the previous entry.

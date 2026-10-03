@@ -5,6 +5,12 @@
 ;; Package-Requires: ((emacs "30.1"))
 ;; URL: https://github.com/stefanoconiglio/emacs-omarchy-theme
 ;; Keywords: faces
+;; SPDX-License-Identifier: GPL-3.0-or-later
+
+;; This program is free software: you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by the Free
+;; Software Foundation, either version 3 of the License, or (at your option)
+;; any later version.  See the file LICENSE.
 
 ;;; Commentary:
 
