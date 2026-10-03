@@ -64,7 +64,8 @@ now applies only when `omarchy-follow-mode` is off.
 `(pdf-roll-redisplay t)`, which takes a non-window as the selected window — with texsync, the
 source window — finds no page overlays there and does nothing: the pages already drawn kept
 their old colours. So after a change `omarchy-follow--refresh-pdfs` calls `pdf-view-redisplay`
-on every window that shows the PDF. (A pdf-tools bug; reporting it upstream is open.)
+on every window that shows the PDF. (A pdf-tools bug, reported as vedang/pdf-tools#373; fixed
+in alberti42's fork, commit bdb1c8f2c, not yet upstream.)
 
 ## Following changes
 
@@ -87,5 +88,5 @@ touched):
   background within 5 s. File events arrive through the input queue, so the test waits with
   `read-event`, as the command loop does; `accept-process-output` never sees them.
 
-Not covered: PDFs (no windows in batch). The redraw fix rests on reading pdf-tools' code; it
-has not been confirmed on screen yet (RESEARCH_LOG.md).
+Not covered: PDFs (no windows in batch). The redraw fix rests on reading pdf-tools' code; the
+user confirmed it on screen (RESEARCH_LOG.md, 2026-10-01).

@@ -136,3 +136,123 @@ its load path (the old `~/repos/emacs-config` is gone). `make compile` clean, `m
 
 **Open.** The user to open a file with Emacs (Client) and switch light ↔ dark with a PDF open;
 this also confirms the redraw fix of 14:29.
+
+## 2026-10-01 20:47 CEST — init.el moved out of Dropbox into this repository
+
+**Request (user).** Keep init.el locally in the dotfiles, backed up on GitHub; delete the
+Dropbox copy. An automatic commit-and-push on every save was proposed; **decision (user):** no,
+the user commits and pushes by hand.
+
+**Done.**
+- `~/.emacs.d/init.el` is now a symlink to `home/.emacs.d/init.el` here, which becomes the live
+  file. It was identical to the Dropbox one except for one comment's chat link, which stays
+  shortened. The full link survives only in the local `~/.emacs.d/init.el.bak-*` files.
+- `~/Dropbox/etc/emacs/` deleted: init.el, `init.el.backup-before-improvements` (2025-10-26) and an
+  `ampl-mode/` copy. `~/Dropbox/etc/zathura/` is still there.
+- Two Dropbox paths in init.el were already broken: the ampl-mode load path
+  (`~/Dropbox/libraries/…`, missing) and the dashboard banner picture (missing). The banner line
+  is gone (the dashboard shows its default logo). ampl-mode now comes from
+  github.com/ampl/ampl-mode (LGPL-3.0; the Dropbox copy was identical) through
+  `(use-package ampl-mode :vc (:url … :lisp-dir "emacs" :rev :newest) :mode … :interpreter
+  "ampl")`; it is installed in `~/.emacs.d/elpa/ampl-mode`.
+- `vc-follow-symlinks` t, so opening `~/.emacs.d/init.el` visits the Git file without asking.
+  `.gitignore` gains Emacs lock and auto-save files (`.#*`, `#*#`).
+- home/README.md, README.md, AGENTS.md (root and here), `machine-state/symlinks.txt` updated.
+
+**Mistakes.**
+- I told the user ampl-mode was on MELPA without checking; it is not (neither the cached nor the
+  live archive has it). Hence `:vc`.
+- `:vc` without `:rev` asks for the latest release, which this repository does not have:
+  `Wrong type argument: stringp, nil`. `:rev :newest` installs the latest commit (8059dc1).
+
+**Results.** 63 top-level forms parse. The daemon was restarted (no unsaved buffers, no
+client frames): it reads init.el from this repository, the Omarchy theme is on
+(modus-operandi), `x.mod` opens in ampl-mode, `dashboard-startup-banner` is `official`.
+
+**Open.** Not committed: the user commits and pushes.
+
+## 2026-10-01 20:54 CEST — Confirmed in Emacs (Client); the two start-up warnings
+
+**Result (user).** "The theme-color switch works at last!": Emacs (Client) frames follow
+`omarchy theme set`. Whether a PDF was open during the switch (the redraw fix of 14:29) was
+not said; that stays open.
+
+**Report (user, screenshot).** A `*Warnings*` window at start: init.el has no
+`lexical-binding` cookie (Emacs 31 warns), and pdf-tools warns that `display-line-numbers-mode`
+is on in PDF buffers. Both predate this work. The first screenshots show the second one's
+effect: a line-number column with a `1` beside the PDF page.
+
+**Done.**
+- First line of init.el: `-*- lexical-binding: nil -*-`. This keeps the dynamic binding init.el
+  has always been read with and only silences the warning. Switching to `t` would change how
+  every `let` and `lambda` in the file behaves and needs a review of the whole file first.
+- In the pdf-tools `:config`: `pdf-view-mode-hook` turns `display-line-numbers-mode` off.
+  `global-display-line-numbers-mode` (line 68) respects a mode turned off in the major mode's
+  hook, and pdf-tools checks 1 s after the mode starts, so neither the warning nor the column
+  appears. Emacs 31.1 has no `display-line-numbers-exempt-modes`.
+- Running daemon: the same hook added, and line numbers turned off in the open PDF
+  (`1-intro-informatica.pdf`) through `emacsclient --eval`; no restart. The cookie takes effect
+  at the next daemon start.
+
+**Checked (headless, `/usr/bin/emacs -Q --batch`).** Loading a file without the cookie gives the
+warning, with `lexical-binding: nil` none. A derived mode whose hook turns line numbers off
+stays without them under `global-display-line-numbers-mode`; text-mode gets them. init.el: 63
+forms parse.
+
+## 2026-10-01 21:13 CEST — Redraw fix confirmed on screen
+
+**Result (user).** With a PDF open in Emacs (Client), switching the Omarchy theme changed the
+PDF's colours too ("It worked."). The redraw fix of 14:29 is confirmed; the pdf-tools report
+upstream is still open (ask before filing).
+
+## 2026-10-01 21:55 CEST — Hook line removed; the pdf-tools bug is real and already fixed in a fork
+
+**Decision (user).** Remove the hook line that calls `omarchy-theme-set-emacs`. Report the
+pdf-tools bug, perhaps with a PR, if it really is a bug.
+
+**Done (hook).** `~/.config/omarchy/hooks/theme-set` and its copy `home/.config/omarchy/hooks/
+theme-set` are now only `#!/bin/bash`. Before, every `omarchy theme set` ran the missing command,
+which failed. `omarchy-hook` then reports "Hook failed", but `omarchy-theme-set` sends that to
+/dev/null, so nobody saw it. Now the hook exits 0. The file is kept, as asked;
+deleting it would change nothing.
+
+**Is it a bug? Yes.**
+- In single-page mode, `pdf-view--redisplay` documents WINDOW t as "redisplay pages in all
+  windows" and walks `get-buffer-window-list`. Sixteen `(pdf-view-redisplay t)` calls rely on
+  that: midnight, themed, the annotation and link modes, the fit and scale commands.
+- In roll mode, `pdf-view-redisplay` hands over to `pdf-roll-redisplay`, whose docstring calls it
+  an "analogue". It turns t into `(selected-window)` and does nothing when that window shows
+  another buffer. So a change made from another window (texsync's source window, a hook, a
+  timer) redraws nothing, and with the PDF in two windows only the selected one is redrawn.
+- Upstream master (vedang/pdf-tools) has the same code: pdf-roll.el dates from 2025-12-31
+  (d54ba64), and the installed 20260102.1101 matches it.
+
+**Upstream status.**
+- alberti42 found and fixed this in their fork on 2026-09-28: commit bdb1c8f2c
+  "fix(pdf-roll): redisplay every window when WINDOW is t", which walks `get-buffer-window-list`
+  for t, with an ERT test. It is on branch `fix/roll-redisplay-all-windows` and in their
+  `merged` branch (issue #372), but no upstream PR exists.
+- Their seven upstream PRs (#361–#371) are open and untouched. #367 fixes the same "selected
+  window only" pattern in another function (`displayed-pages`), not this one.
+- No issue mentions this bug. The repository was last pushed to on 2026-01-08.
+
+**Checked (headless).** alberti42's test, `pdf-roll-redisplay-t-reaches-every-window` (three
+real windows in batch; the selected one shows another buffer), against the installed
+pdf-roll: FAILED (`win-a` keeps its state). With their `pdf-roll-redisplay` loaded on top:
+passed.
+
+**Open.** How to report it, to be decided by the user: opening a PR of our own would duplicate
+alberti42's fix.
+
+## 2026-10-01 22:01 CEST — pdf-tools bug reported
+
+**Decision (user).** Report it as an issue rather than a PR, which would duplicate alberti42's fix.
+The user approved the draft as shown.
+
+**Done.** https://github.com/vedang/pdf-tools/issues/373 describes the bug, gives a repro
+(change the colours from another window in roll mode) and the expected behaviour, says the
+two-windows case comes from reading the code and was not seen on screen, links alberti42's
+commit bdb1c8f2c, and asks them to open a PR.
+
+**Open.** Watch #373 for an answer. When a fixed pdf-tools is installed, the redraw loop in
+`omarchy-follow--refresh-pdfs` can go; until then it stays (harmless with the fix).

@@ -9,13 +9,12 @@ the user says otherwise, and no secrets or private details are committed.
 - **The package:** `omarchy-follow.el` here. Design: `DESIGN.md`. History, findings and
   mistakes: `RESEARCH_LOG.md`. Read both before changing anything.
 - **Where it is used:** the user's live init file, `~/.emacs.d/init.el`, a symlink to
-  `~/Dropbox/etc/emacs/init.el`. Its TEXSYNC block (near the end) puts this directory and
+  `home/.emacs.d/init.el` in this repository (`../home/.emacs.d/init.el`): editing that file
+  edits the live one, and the user commits and pushes it by hand. Its TEXSYNC block (near the end) puts this directory and
   `~/repos/texsync` on the load path and turns `omarchy-follow-mode` on in graphical Emacs and
   in the Emacs daemon (`emacs.service`, which "Emacs (Client)" connects to; the user's usual
   way in). The daemon reads init.el with no graphical frame: test it with `daemonp` forced
   true, and restart it (`systemctl --user restart emacs`, after the user has saved) to reload.
-  `home/.emacs.d/init.el` in this repository mirrors the live file, sanitized (a chat link is
-  shortened); keep the two in step by hand, applying only the intended change.
 - **Companion:** texsync, `~/repos/texsync` (github.com/stefanoconiglio/texsync, public): LaTeX
   and PDF side by side, synced both ways. It has its own AGENTS.md. Both are loaded together;
   texsync's `try.el` turns this package on when it is on the load path.
@@ -28,21 +27,20 @@ the user says otherwise, and no secrets or private details are committed.
 ## State (2026-10-01)
 
 - Works on screen: Emacs takes the theme and follows `omarchy theme set`; dark-theme PDFs take
-  the theme's colours.
-- Fixed, not yet confirmed on screen: PDF windows are redrawn after a change (they kept the old
-  colours, a pdf-tools bug in continuous mode).
+  the theme's colours. Also in Emacs (Client) frames of the daemon, the user's usual Emacs
+  (fixed and confirmed by the user 2026-10-01).
+- PDF windows are redrawn after a change (they kept the old colours, a pdf-tools bug in
+  continuous mode): fixed, confirmed on screen by the user 2026-10-01.
 - `make test` 3 / 3.
 
 ## Open
 
-- Confirm on screen with the user, in an Emacs (Client) frame, that the daemon follows the
-  theme (fixed 2026-10-01 20:28: it never turned the mode on) and the redraw fix (switch
-  light ↔ dark with a PDF open).
-- Report the pdf-tools redraw bug upstream (`pdf-view-refresh-themed-buffer` →
-  `(pdf-roll-redisplay t)` redraws only the selected window). Ask before filing.
-- `home/.config/omarchy/hooks/theme-set` calls the non-existent `omarchy-theme-set-emacs`.
-  Removing that line was offered; the user has not decided.
-- The init file lives in Dropbox, which is full: changes there may not sync.
+- The pdf-tools redraw bug (`(pdf-roll-redisplay t)` redraws only the selected window) is
+  confirmed, and already fixed in alberti42's fork (commit bdb1c8f2c, 2026-09-28), but not
+  proposed upstream (vedang/pdf-tools, no maintainer activity since 2026-01-08). Reported as
+  vedang/pdf-tools#373 (2026-10-01), asking alberti42 to open the PR. Keep the workaround in
+  `omarchy-follow--refresh-pdfs` until a fixed pdf-tools is installed: it is harmless with the
+  fix.
 
 ## Checks
 
