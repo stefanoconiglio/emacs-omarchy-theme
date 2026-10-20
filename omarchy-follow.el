@@ -25,8 +25,7 @@
 ;;
 ;; The theme is read from Omarchy's state directory; light or dark comes from
 ;; `omarchy-theme-color', which Omarchy's own per-app scripts use.  A file
-;; watch on `theme.name' notices a theme change.  DESIGN.md has the
-;; details; AGENTS.md says how to work on it.
+;; watch on `theme.name' notices a theme change.
 
 ;;; Code:
 
