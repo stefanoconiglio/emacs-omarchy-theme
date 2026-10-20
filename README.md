@@ -48,9 +48,6 @@ keeps the current theme. To turn the PDF colours off for one PDF:
 
 - `omarchy-follow.el`: the package.
 - `test/omarchy-follow-test.el`: batch tests; `make test` (headless, about a second).
-- `DESIGN.md`: how it works (palette mapping, light/dark, PDFs, the file watch).
-- `RESEARCH_LOG.md`: what was tried, found and fixed, dated.
-- `AGENTS.md`: how to resume work on it (state, checks, open items).
 
 ## Note on the theme-set hook
 
