@@ -11,14 +11,14 @@ Omarchy theme, and changes them, within about a second, whenever `omarchy theme 
 Nothing in the Omarchy configuration is changed: Emacs reads the theme from Omarchy's state
 directory (`~/.local/state/omarchy/current/`) and watches it.
 
-It was written together with [texsync](https://github.com/stefanoconiglio/emacs-texsync) (LaTeX
+It was written together with [dyad](https://github.com/stefanoconiglio/emacs-latex-dyad) (LaTeX
 source and PDF side by side in Emacs, kept in step), but works on its own.
 
 ## Use
 
 Clone it to `~/repos/emacs-omarchy-theme`, then in the init file
 ([emacs-customizations](https://github.com/stefanoconiglio/emacs-customizations)' `init.el`
-does this, in its TEXSYNC block):
+does this, in its DYAD block):
 
 ```elisp
 (add-to-list 'load-path "~/repos/emacs-omarchy-theme")
@@ -32,11 +32,11 @@ Only in graphical Emacs (`/usr/bin/emacs`) and in the Emacs daemon, whose frames
 [emacs-tui-default](https://github.com/stefanoconiglio/emacs-tui-default) makes
 `emacs -nw`) keeps the terminal's colours.
 
-Try it with texsync, without an init file:
+Try it with dyad, without an init file:
 
 ```
 /usr/bin/emacs -Q -L ~/repos/emacs-omarchy-theme \
-    -l ~/repos/emacs-texsync/try.el FILE.tex
+    -l ~/repos/emacs-latex-dyad/try.el FILE.tex
 ```
 
 Commands and options: `M-x omarchy-follow-apply` re-applies the current theme;
