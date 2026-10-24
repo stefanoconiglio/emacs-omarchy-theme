@@ -11,14 +11,15 @@ Omarchy theme, and changes them, within about a second, whenever `omarchy theme 
 Nothing in the Omarchy configuration is changed: Emacs reads the theme from Omarchy's state
 directory (`~/.local/state/omarchy/current/`) and watches it.
 
-It was written together with [dyad](https://github.com/stefanoconiglio/emacs-latex-dyad) (LaTeX
+It was written together with
+[pdf-view-scroll-sync](https://github.com/stefanoconiglio/emacs-pdf-view-scroll-sync) (LaTeX
 source and PDF side by side in Emacs, kept in step), but works on its own.
 
 ## Use
 
 Clone it to `~/repos/emacs-omarchy-theme`, then in the init file
 ([emacs-config](https://github.com/stefanoconiglio/emacs-config)'s `init.el`
-does this, in its DYAD block):
+does this, in its PDF-VIEW-SCROLL-SYNC block):
 
 ```elisp
 (add-to-list 'load-path "~/repos/emacs-omarchy-theme")
@@ -32,11 +33,11 @@ Only in graphical Emacs (`/usr/bin/emacs`) and in the Emacs daemon, whose frames
 [emacs-tui-default](https://github.com/stefanoconiglio/emacs-tui-default) makes
 `emacs -nw`) keeps the terminal's colours.
 
-Try it with dyad, without an init file:
+Try it with pdf-view-scroll-sync, without an init file:
 
 ```
 /usr/bin/emacs -Q -L ~/repos/emacs-omarchy-theme \
-    -l ~/repos/emacs-latex-dyad/try.el FILE.tex
+    -l ~/repos/emacs-pdf-view-scroll-sync/try.el FILE.tex
 ```
 
 Commands and options: `M-x omarchy-follow-apply` re-applies the current theme;
