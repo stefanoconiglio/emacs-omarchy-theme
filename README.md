@@ -17,7 +17,7 @@ source and PDF side by side in Emacs, kept in step), but works on its own.
 ## Use
 
 Clone it to `~/repos/emacs-omarchy-theme`, then in the init file
-([emacs-customizations](https://github.com/stefanoconiglio/emacs-customizations)' `init.el`
+([emacs-config](https://github.com/stefanoconiglio/emacs-config)'s `init.el`
 does this, in its DYAD block):
 
 ```elisp
