@@ -14,8 +14,9 @@
 
 ;;; Commentary:
 
-;; `omarchy-follow-mode' gives graphical Emacs the colours of the current
-;; Omarchy theme and changes them when `omarchy theme set' does:
+;; `omarchy-follow-mode' gives Emacs the colours of the current Omarchy
+;; theme and changes them when `omarchy theme set' does, in graphical frames
+;; and in terminal frames with 24-bit colour:
 ;;
 ;; - the built-in Modus theme, Vivendi for a dark Omarchy theme and
 ;;   Operandi for a light one, with its palette overridden by the Omarchy

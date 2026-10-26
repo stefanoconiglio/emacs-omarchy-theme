@@ -1,6 +1,6 @@
 # Emacs follows the Omarchy theme
 
-`omarchy-follow-mode` (in `omarchy-follow.el`) gives graphical Emacs the colours of the current
+`omarchy-follow-mode` (in `omarchy-follow.el`) gives Emacs the colours of the current
 Omarchy theme, and changes them, within about a second, whenever `omarchy theme set` runs:
 
 - Emacs: the built-in Modus theme (Vivendi for a dark Omarchy theme, Operandi for a light one)
@@ -23,15 +23,19 @@ does this, in its PDF-VIEW-SCROLL-SYNC block):
 
 ```elisp
 (add-to-list 'load-path "~/repos/emacs-omarchy-theme")
-(when (and (or (display-graphic-p) (daemonp)) (require 'omarchy-follow nil t))
+(when (and (or (display-graphic-p) (daemonp) (>= (display-color-cells) 16777216))
+           (require 'omarchy-follow nil t))
   (omarchy-follow-mode 1))
 ```
 
-Only in graphical Emacs (`/usr/bin/emacs`) and in the Emacs daemon, whose frames "Emacs
-(Client)" opens: a daemon reads the init file before it has a graphical frame, so
-`display-graphic-p` alone would leave the mode off there. Terminal Emacs (`emacs`, which
-[emacs-tui-default](https://github.com/stefanoconiglio/emacs-tui-default) makes
-`emacs -nw`) keeps the terminal's colours.
+In graphical Emacs (`/usr/bin/emacs`), in the Emacs daemon, whose frames "Emacs (Client)"
+opens (a daemon reads the init file before it has a frame, so `display-graphic-p` alone would
+leave the mode off there), and in terminal Emacs (`emacs -nw`, which
+[emacs-tui-default](https://github.com/stefanoconiglio/emacs-tui-default) makes `emacs`) when
+the terminal has 24-bit colour (`COLORTERM=truecolor`, as foot sets it): there the Omarchy
+palette is drawn exactly. A terminal with 256 colours or fewer keeps its own colours. The
+daemon's terminal frames (`emacsclient -t`) get 24-bit colour only when the daemon itself was
+started with `COLORTERM=truecolor` in its environment.
 
 Try it with pdf-view-scroll-sync, without an init file:
 
